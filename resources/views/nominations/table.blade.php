@@ -4,10 +4,11 @@
             <th>Name</th>
         <th>Gender</th>
         <th>Linkedin Url</th>
-        <th>Blo</th>
+        <th>Bio</th>
         <th>Business Name</th>
         <th>Reason For Nomination</th>
-        <th>No Of Numinations</th>
+        <th>No Of Nominations</th>
+        <th>Is Admin Selected</th>
         <th>Is Won</th>
         <th>User Id</th>
         <th>Category Id</th>
@@ -20,10 +21,11 @@
             <td>{!! $nomination->name !!}</td>
             <td>{!! $nomination->gender !!}</td>
             <td>{!! $nomination->linkedin_url !!}</td>
-            <td>{!! $nomination->blo !!}</td>
+            <td>{!! $nomination->bio !!}</td>
             <td>{!! $nomination->business_name !!}</td>
             <td>{!! $nomination->reason_for_nomination !!}</td>
-            <td>{!! $nomination->no_of_numinations !!}</td>
+            <td>{!! $nomination->no_of_nominations !!}</td>
+            <td>{!! $nomination->is_admin_selected !!}</td>
             <td>{!! $nomination->is_won !!}</td>
             <td>{!! $nomination->user_id !!}</td>
             <td>{!! $nomination->category_id !!}</td>

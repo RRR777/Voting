@@ -8,6 +8,9 @@ use App\Repositories\CategoryRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Auth;
+use App\Models\Nomination;
+use App\Models\NominationUser;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -59,7 +62,7 @@ class CategoryController extends AppBaseController
 
         $category = $this->categoryRepository->create($input);
 
-        Flash::success('Category saved successfully.');
+        Flash::success('Category submitted successfully.');
 
         return redirect(route('categories.index'));
     }
@@ -79,6 +82,23 @@ class CategoryController extends AppBaseController
             Flash::error('Category not found');
 
             return redirect(route('categories.index'));
+        }
+        //check if this viewer has nominated someone in this category before
+        // A user ca only nominate one person per category
+        $hasNominatedBefore = 0;
+        $nomination = 0;
+
+        $nominationUser = NominationUser::where('user_id', Auth::user()->id)
+            ->where('category_id', $id)->first();
+        if ($nominationUser) {
+            $hasNominatedBefore = 1;
+            //get details the nomination they made
+            $nomination = Nomination::find($nominationUser->nomination_id);
+
+            return view('categories.show')
+                ->with('category', $category)
+                ->with('nomination', $nomination)
+                ->with('hasNominatedBefore', $hasNominatedBefore);
         }
 
         return view('categories.show')->with('category', $category);

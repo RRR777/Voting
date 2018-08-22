@@ -8,6 +8,9 @@ use App\Repositories\NominationRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Auth;
+use App\Models\Nomination;
+use App\Models\NominationUser;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -56,12 +59,40 @@ class NominationController extends AppBaseController
     public function store(CreateNominationRequest $request)
     {
         $input = $request->all();
+        $input['user_id'] = Auth::user()->id;
 
-        $nomination = $this->nominationRepository->create($input);
+        //check database if nomination already exist, then add 1
+        $nominationsCheck = Nomination::where('name', $request->input('name'))->first();
+        if ($nominationsCheck) {
+            if ($nominationsCheck->user_id != Auth::user()->id) {
+                $no_of_nominations = $nominationsCheck->no_of_nominations;
+                $input['no_of_nominations'] = $no_of_nominations + 1;
+                $this->nominationRepository->
+                    update(['no_of_nominations' => $input['no_of_nominations']], $nominationsCheck->id);
 
-        Flash::success('Nomination saved successfully.');
+                NominationUser::create([
+                    'user_id' => Auth::user()->id,
+                    'category_id' => $request->input('category_id'),
+                    'nomination_id' => $nominationsCheck->id
 
-        return redirect(route('nominations.index'));
+                ]);
+            } else {
+                Flash::success('This nomination already exist.');
+            }
+        } else {
+            $input['no_of_nominations'] = 1;
+            $nomination = $this->nominationRepository->create($input);
+
+            NominationUser::create([
+                'user_id' => Auth::user()->id,
+                'category_id' => $request->input('category_id'),
+                'nomination_id' => $nomination->id
+            ]);
+        }
+
+        Flash::success('Nomination submited successfully.');
+
+        return redirect()->back();
     }
 
     /**

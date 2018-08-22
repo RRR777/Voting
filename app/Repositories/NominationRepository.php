@@ -23,10 +23,11 @@ class NominationRepository extends BaseRepository
         'name',
         'gender',
         'linkedin_url',
-        'blo',
+        'bio',
         'business_name',
         'reason_for_nomination',
-        'no_of_numinations',
+        'no_of_nominations',
+        'is_admin_selected',
         'is_won',
         'user_id',
         'category_id'

@@ -24,8 +24,8 @@
 
 <!-- Blo Field -->
 <div class="form-group">
-    {!! Form::label('blo', 'Blo:') !!}
-    <p>{!! $nomination->blo !!}</p>
+    {!! Form::label('bio', 'Bio:') !!}
+    <p>{!! $nomination->bio !!}</p>
 </div>
 
 <!-- Business Name Field -->
@@ -42,14 +42,20 @@
 
 <!-- No Of Numinations Field -->
 <div class="form-group">
-    {!! Form::label('no_of_numinations', 'No Of Numinations:') !!}
-    <p>{!! $nomination->no_of_numinations !!}</p>
+    {!! Form::label('no_of_nominations', 'No Of Nominations:') !!}
+    <p>{!! $nomination->no_of_nominations !!}</p>
 </div>
 
 <!-- Is Won Field -->
 <div class="form-group">
     {!! Form::label('is_won', 'Is Won:') !!}
     <p>{!! $nomination->is_won !!}</p>
+</div>
+
+<!-- Is Admin Selected Field -->
+<div class="form-group">
+    {!! Form::label('is_admin_selected', 'Is Admin Selected:') !!}
+    <p>{!! $nomination->is_admin_selected !!}</p>
 </div>
 
 <!-- User Id Field -->

@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string email
  * @property string password
  * @property string avatar
- * @property string facebook_profile
- * @property string gender
+ * @property string facebook_url
+ * @property string nickname
  * @property integer role_id
  * @property string remember_token
  */
@@ -24,23 +24,21 @@ class User extends Model
     use SoftDeletes;
 
     public $table = 'users';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
     protected $dates = ['deleted_at'];
-
 
     public $fillable = [
         'name',
         'email',
         'password',
         'avatar',
-        'facebook_profile',
-        'gender',
+        'facebook_url',
+        'nickname',
         'role_id',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -54,10 +52,10 @@ class User extends Model
         'email' => 'string',
         'password' => 'string',
         'avatar' => 'string',
-        'facebook_profile' => 'string',
-        'gender' => 'string',
+        'facebook_url' => 'string',
+        'nickname' => 'string',
         'role_id' => 'integer',
-        'remember_token' => 'string'
+        'remember_token' => 'string',
     ];
 
     /**
@@ -66,8 +64,12 @@ class User extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
-    
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
+
 }

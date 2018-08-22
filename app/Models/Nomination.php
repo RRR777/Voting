@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string name
  * @property string gender
  * @property string linkedin_url
- * @property string blo
+ * @property string bio
  * @property string business_name
  * @property string reason_for_nomination
- * @property integer no_of_numinations
+ * @property integer no_of_nominations
+  * @property boolean is_admin_selected
  * @property boolean is_won
  * @property integer user_id
  * @property integer category_id
@@ -38,10 +39,11 @@ class Nomination extends Model
         'name',
         'gender',
         'linkedin_url',
-        'blo',
+        'bio',
         'business_name',
         'reason_for_nomination',
-        'no_of_numinations',
+        'no_of_nominations',
+        'is_admin_selected',
         'is_won',
         'user_id',
         'category_id'
@@ -57,10 +59,11 @@ class Nomination extends Model
         'name' => 'string',
         'gender' => 'string',
         'linkedin_url' => 'string',
-        'blo' => 'string',
+        'bio' => 'string',
         'business_name' => 'string',
         'reason_for_nomination' => 'string',
-        'no_of_numinations' => 'integer',
+        'no_of_nominations' => 'integer',
+        'is_admin_selected' => 'boolean',
         'is_won' => 'boolean',
         'user_id' => 'integer',
         'category_id' => 'integer'
@@ -72,8 +75,6 @@ class Nomination extends Model
      * @var array
      */
     public static $rules = [
-        
+        //
     ];
-
-    
 }

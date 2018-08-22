@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateNominationsTable extends Migration
 {
@@ -18,10 +18,11 @@ class CreateNominationsTable extends Migration
             $table->string('name');
             $table->string('gender');
             $table->string('linkedin_url')->nullable();
-            $table->string('blo')->nullable();
+            $table->string('bio')->nullable();
             $table->string('business_name')->nullable();
             $table->string('reason_for_nomination')->nullable();
-            $table->integer('no_of_numinations');
+            $table->integer('no_of_nominations');
+            $table->boolean("is_admin_selected")->default(0);
             $table->boolean("is_won")->default(0);
             $table->integer('user_id');
             $table->integer('category_id');

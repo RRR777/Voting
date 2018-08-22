@@ -12,7 +12,7 @@ return [
     | default location for this type of information, allowing packages
     | to have a conventional place to find your various credentials.
     |
-    */
+     */
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -35,15 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-/*     'facebook' => [
-        'client_id' => '221537521864876',         // Your Facebook Client ID
-        'client_secret' => 'c4eaabbec3c7e2211ae60e7a8640561e', // Your Facebook Client Secret
-        'redirect' => 'http://localhost:8000/login/facebook/callback',
-    ], */
-
     'facebook' => [
-        'client_id'     => env('FACEBOOK_ID'),
+        'client_id' => env('FACEBOOK_ID'),
         'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect'      => env('FACEBOOK_URL'),
+        'redirect' => env('FACEBOOK_URL'),
     ],
 ];

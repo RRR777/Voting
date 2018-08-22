@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
-
 use App\User;
 use Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -20,7 +19,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -58,13 +57,13 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
+        $userSocial = Socialite::driver('facebook')->stateless()->user();
 
-        $userSocial = Socialite::driver('facebook')->user();
-        //dd($userSocial);
         //check if user exists and log user in
         $user = User::where('email', $userSocial->user['email'])->first();
-        if($user){
-            if(Auth::loginUsingId($user->id)){
+
+        if ($user) {
+            if (Auth::loginUsingId($user->id)) {
                 return redirect()->route('home');
             }
         }
@@ -73,14 +72,14 @@ class LoginController extends Controller
             'name' => $userSocial->user['name'],
             'email' => $userSocial->user['email'],
             'password' => bcrypt('1234'),
-            'avatar'=> $userSocial->avatar,
-            //'facebook_profile'=> $userSocial->user['link'],
-            //'gender' => $userSocial->user['gender'],
+            'avatar' => $userSocial->avatar,
+            'facebook_url' => $userSocial->profileUrl,
+            'nickname' => $userSocial->nickname,
         ]);
-       
+
         //finally log the user in
-        if($userSignup){
-            if(Auth::loginUsingId($userSignup->id)){
+        if ($userSignup) {
+            if (Auth::loginUsingId($userSignup->id)) {
                 return redirect()->route('home');
             }
         }

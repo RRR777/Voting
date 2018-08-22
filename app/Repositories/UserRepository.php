@@ -24,8 +24,8 @@ class UserRepository extends BaseRepository
         'email',
         'password',
         'avatar',
-        'facebook_profile',
-        'gender',
+        'facebook_url',
+        'nickname',
         'role_id',
         'remember_token'
     ];

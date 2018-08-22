@@ -6,8 +6,8 @@
             <th>Role Id</th>
             <th>Password</th>
             <th>Avatar</th>
-            <th>Facebook Profile</th>
-            <th>Gender</th>
+            <th>Facebook Url</th>
+            <th>Nickname</th>
             <th>Remember Token</th>
             <th colspan="3">Action</th>
         </tr>
@@ -20,8 +20,8 @@
             <td>{!! $user->role_id !!}</td>
             <td>{!! $user->password !!}</td>
             <td>{!! $user->avatar !!}</td>
-            <td>{!! $user->facebook_profile !!}</td>
-            <td>{!! $user->gender !!}</td>
+            <td>{!! $user->facebook_url !!}</td>
+            <td>{!! $user->nickname !!}</td>
             <td>{!! $user->remember_token !!}</td>
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}

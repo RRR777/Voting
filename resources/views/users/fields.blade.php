@@ -24,14 +24,14 @@
 
 <!-- Facebook Profile Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('facebook_profile', 'Facebook Profile:') !!}
-    {!! Form::text('facebook_profile', null, ['class' => 'form-control']) !!}
+    {!! Form::label('facebook_url', 'Facebook Url:') !!}
+    {!! Form::text('facebook_url', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Gender Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('gender', 'Gender:') !!}
-    {!! Form::text('gender', null, ['class' => 'form-control']) !!}
+    {!! Form::label('nickname', 'Nickname:') !!}
+    {!! Form::text('nickname', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Role Id Field -->
