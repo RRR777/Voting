@@ -66,10 +66,8 @@ class User extends Model
     public static $rules = [
 
     ];
-
     public function role()
     {
         return $this->belongsTo('App\Models\Role');
     }
-
 }

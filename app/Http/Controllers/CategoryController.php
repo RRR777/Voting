@@ -35,8 +35,7 @@ class CategoryController extends AppBaseController
         $this->categoryRepository->pushCriteria(new RequestCriteria($request));
         $categories = $this->categoryRepository->all();
 
-        return view('categories.index')
-            ->with('categories', $categories);
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -78,10 +77,13 @@ class CategoryController extends AppBaseController
     {
         $category = $this->categoryRepository->findWithoutFail($id);
 
+        $nominations = Nomination::all();
+        $nomintationSelecteds = Nomination::where('is_admin_selected', 1)->get();
+
         if (empty($category)) {
             Flash::error('Category not found');
 
-            return redirect(route('categories.index'));
+            return redirect(route('categories.index'), compact('nominations', 'nomintationSelecteds'));
         }
         //check if this viewer has nominated someone in this category before
         // A user ca only nominate one person per category
@@ -95,13 +97,20 @@ class CategoryController extends AppBaseController
             //get details the nomination they made
             $nomination = Nomination::find($nominationUser->nomination_id);
 
-            return view('categories.show')
-                ->with('category', $category)
-                ->with('nomination', $nomination)
-                ->with('hasNominatedBefore', $hasNominatedBefore);
+            return view('categories.show', compact(
+                'category',
+                'nomination',
+                'hasNominatedBefore',
+                'nominations',
+                'nomintationSelecteds'
+            ));
         }
 
-        return view('categories.show')->with('category', $category);
+        return view('categories.show', compact(
+            'category',
+            'nominations',
+            'nomintationSelecteds'
+        ));
     }
 
     /**

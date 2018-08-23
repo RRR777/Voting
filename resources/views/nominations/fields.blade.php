@@ -8,9 +8,9 @@
 <div class="form-group col-sm-6">
   <label for="gender">Gender:</label>
   <select class="form-control" id="gender" name="gender">
-    <option value="" selected hidden>Please select</option>
-    <option value="male">Male</option>
-    <option value="female">Female</option>
+    <option value="" {{ ($nomination->gender == "") ? "selected" : null }} hidden>Please select</option>
+  <option value="male" {{ ($nomination->gender == "male") ? "selected" : null }}>Male</option>
+    <option value="female" {{ ($nomination->gender == "female") ? "selected" : null }}>Female</option>
   </select>
 </div>
 
@@ -51,7 +51,7 @@
         {!! Form::label('is_admin_selected', 'Is Admin Selected:') !!}
         <label class="checkbox-inline">
             {!! Form::hidden('is_admin_selected', false) !!}
-            {!! Form::checkbox('is_admin_selected', '1', null) !!} 1
+            {!! Form::checkbox('is_admin_selected', '1', null) !!}
         </label>
     </div>
 
@@ -60,7 +60,7 @@
         {!! Form::label('is_won', 'Is Won:') !!}
         <label class="checkbox-inline">
             {!! Form::hidden('is_won', false) !!}
-            {!! Form::checkbox('is_won', '1', null) !!} 1
+            {!! Form::checkbox('is_won', '1', null) !!}
         </label>
     </div>
 

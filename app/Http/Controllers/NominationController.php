@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\CreateNominationRequest;
 use App\Http\Requests\UpdateNominationRequest;
-use App\Repositories\NominationRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
-use Flash;
-use Auth;
 use App\Models\Nomination;
 use App\Models\NominationUser;
+use App\Repositories\NominationRepository;
+use Auth;
+use Flash;
+use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -73,7 +73,7 @@ class NominationController extends AppBaseController
                 NominationUser::create([
                     'user_id' => Auth::user()->id,
                     'category_id' => $request->input('category_id'),
-                    'nomination_id' => $nominationsCheck->id
+                    'nomination_id' => $nominationsCheck->id,
 
                 ]);
             } else {
@@ -86,7 +86,7 @@ class NominationController extends AppBaseController
             NominationUser::create([
                 'user_id' => Auth::user()->id,
                 'category_id' => $request->input('category_id'),
-                'nomination_id' => $nomination->id
+                'nomination_id' => $nomination->id,
             ]);
         }
 
@@ -145,6 +145,7 @@ class NominationController extends AppBaseController
      */
     public function update($id, UpdateNominationRequest $request)
     {
+        $category_id = $request->category_id;
         $nomination = $this->nominationRepository->findWithoutFail($id);
 
         if (empty($nomination)) {
@@ -157,7 +158,7 @@ class NominationController extends AppBaseController
 
         Flash::success('Nomination updated successfully.');
 
-        return redirect(route('nominations.index'));
+        return redirect(route('categories.show', compact('category_id')));
     }
 
     /**

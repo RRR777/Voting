@@ -11,10 +11,10 @@
     <tbody>
     @foreach($settings as $setting)
         <tr>
-            <td>{!! $setting->nomination_start_date !!}</td>
-            <td>{!! $setting->nomination_end_date !!}</td>
-            <td>{!! $setting->voting_start_date !!}</td>
-            <td>{!! $setting->voting_end_date !!}</td>
+            <td>{!! $setting->nomination_start_date->format('Y-M-d') !!}</td>
+            <td>{!! $setting->nomination_end_date->format('Y-M-d') !!}</td>
+            <td>{!! $setting->voting_start_date->format('Y-M-d') !!}</td>
+            <td>{!! $setting->voting_end_date->format('Y-M-d') !!}</td>
             <td>
                 {!! Form::open(['route' => ['settings.destroy', $setting->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

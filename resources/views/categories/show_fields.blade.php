@@ -1,5 +1,5 @@
 
-    <div class="col-md-3">
+    <div class="col-md-2">
         <!-- Profile Image -->
         <div class="box box-primary">
             <div class="box-body box-profile">
@@ -23,17 +23,25 @@
         <!-- /.box -->
     </div>
     <!-- /.col -->
-    <div class="col-md-9">
+    <div class="col-md-10">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class=""><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
-                <li class=""><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li>
-                @if (Auth::user()->role_id < 3)
-                    <li class=""><a href="#nominees" data-toggle="tab" aria-expanded="false">Nominees</a></li>
+                @if (Auth::user()->role_id == 4)
+                    <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
+                    <li class=""><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li>
                 @endif
+                <li class="
+                    @if (Auth::user()->role_id != 4)
+                        active
+                    @endif
+                "><a href="#nominees" data-toggle="tab" aria-expanded="false">Nominees</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane" id="nomination">
+                <div class="tab-pane 
+                    @if (Auth::user()->role_id == 4)
+                        active
+                    @endif
+                " id="nomination">
                     <div class="box-body">
                         {{-- Dispalay form if user hasn't nominated before --}}
                         @if (!isset($hasNominatedBefore) || $hasNominatedBefore == 0 )
@@ -95,12 +103,32 @@
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="vote">
-                    
                     //Our Vote code here
                 </div>
                 <!-- /.tab-pane -->
-                <div class="tab-pane" id="nominees">
-                    //Our Nominees code here
+                <div class="tab-pane
+                    @if (Auth::user()->role_id != 4)
+                        active
+                    @endif
+                " id="nominees">
+                    @if (isset($nomintationSelecteds))
+                        <h3>Selected Nominees</h3>
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                    @include('nominations.selected_nominees')
+                            </div>
+                        </div>
+                    @else
+                        <p>There are no selected nominess for voting</p>
+                    @endif
+                    @if (Auth::user()->role_id < 3)
+                        <h3>All nominees</h3>
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                    @include('nominations.table')
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.tab-pane -->
             </div>
