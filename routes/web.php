@@ -61,4 +61,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('nominations', 'NominationController');
     Route::resource('votings', 'VotingController');
     Route::resource('users', 'UserController');
+    Route::get('nominations/vote/{nomination_id}/{category_id}', 'NominationController@vote')
+        ->name('nominations.vote');
 });

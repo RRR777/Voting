@@ -13,6 +13,7 @@ use App\Models\Nomination;
 use App\Models\NominationUser;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Voting;
 
 class CategoryController extends AppBaseController
 {
@@ -77,39 +78,48 @@ class CategoryController extends AppBaseController
     {
         $category = $this->categoryRepository->findWithoutFail($id);
 
-        $nominations = Nomination::all();
-        $nomintationSelecteds = Nomination::where('is_admin_selected', 1)->get();
-
         if (empty($category)) {
             Flash::error('Category not found');
 
-            return redirect(route('categories.index'), compact('nominations', 'nomintationSelecteds'));
+            return redirect(route('categories.index'));
         }
+
+        $nominations = Nomination::where('category_id', $category->id)->get();
+        $nomintationSelecteds = Nomination::where('category_id', $category->id)
+            ->where('is_admin_selected', 1)
+            ->get();
+
         //check if this viewer has nominated someone in this category before
         // A user ca only nominate one person per category
         $hasNominatedBefore = 0;
         $nomination = 0;
-
         $nominationUser = NominationUser::where('user_id', Auth::user()->id)
             ->where('category_id', $id)->first();
+
         if ($nominationUser) {
             $hasNominatedBefore = 1;
             //get details the nomination they made
             $nomination = Nomination::find($nominationUser->nomination_id);
 
-            return view('categories.show', compact(
-                'category',
-                'nomination',
-                'hasNominatedBefore',
-                'nominations',
-                'nomintationSelecteds'
-            ));
+            Flash::success('You have already nominated some one in this category.');
+        }
+
+        //check if the user already voted in this category before?
+        $checkVote = Voting::where('user_id', Auth::user()->id)
+            ->where('category_id', $category->id)
+            ->first();
+
+        if ($checkVote) {
+            Flash::success('You have already voted before.');
         }
 
         return view('categories.show', compact(
             'category',
+            'nomination',
+            'hasNominatedBefore',
             'nominations',
-            'nomintationSelecteds'
+            'nomintationSelecteds',
+            'checkVote'
         ));
     }
 

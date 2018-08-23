@@ -22,6 +22,7 @@ class CreateNominationsTable extends Migration
             $table->string('business_name')->nullable();
             $table->string('reason_for_nomination')->nullable();
             $table->integer('no_of_nominations');
+            $table->integer('no_of_votes')->default(0);
             $table->boolean("is_admin_selected")->default(0);
             $table->boolean("is_won")->default(0);
             $table->integer('user_id');

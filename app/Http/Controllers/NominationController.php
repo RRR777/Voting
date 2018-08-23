@@ -13,6 +13,7 @@ use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Voting;
 
 class NominationController extends AppBaseController
 {
@@ -183,5 +184,43 @@ class NominationController extends AppBaseController
         Flash::success('Nomination deleted successfully.');
 
         return redirect(route('nominations.index'));
+    }
+
+    public function vote(Request $request)
+    {
+        //create vote
+        //update nomination vote count
+        //redirect
+        if (Auth::check()) {
+            //check if the user already voted?
+            $checkVote = Voting::where('user_id', Auth::user()->id)
+                ->where('nomination_id', $request->nomination_id)
+                ->where('category_id', $request->category_id)
+                ->first();
+            if ($checkVote) {
+                Flash::success('You have already voted before.');
+
+                return redirect()->back();
+            } else {
+                $voting = Voting::create([
+                    'user_id' => Auth::user()->id,
+                    'category_id' => $request->category_id,
+                    'nomination_id' => $request->nomination_id,
+                ]);
+
+                $getNomination = Nomination::where('id', $request->nomination_id)->first();
+
+                
+                $nomination = Nomination::where('id', $request->nomination_id)->update([
+                    'no_of_votes' => $getNomination->no_of_votes + 1,
+                ]);
+
+                if ($nomination) {
+                    Flash::success('You have voted succesfully.');
+
+                    return redirect()->back();
+                }
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@
             <ul class="nav nav-tabs">
                 @if (Auth::user()->role_id == 4)
                     <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
-                    <li class=""><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li>
+{{--                     <li class=""><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li> --}}
                 @endif
                 <li class="
                     @if (Auth::user()->role_id != 4)
@@ -101,11 +101,11 @@
                         @endif
                     </div>
                 </div>
-                <!-- /.tab-pane -->
+{{--                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="vote">
                     //Our Vote code here
                 </div>
-                <!-- /.tab-pane -->
+                <!-- /.tab-pane --> --}}
                 <div class="tab-pane
                     @if (Auth::user()->role_id != 4)
                         active

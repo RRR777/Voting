@@ -8,9 +8,9 @@
 <div class="form-group col-sm-6">
   <label for="gender">Gender:</label>
   <select class="form-control" id="gender" name="gender">
-    <option value="" {{ ($nomination->gender == "") ? "selected" : null }} hidden>Please select</option>
-  <option value="male" {{ ($nomination->gender == "male") ? "selected" : null }}>Male</option>
-    <option value="female" {{ ($nomination->gender == "female") ? "selected" : null }}>Female</option>
+    <option value=""selected {{-- {{ ($nomination->gender == "") ? "selected" : null }} --}} hidden>Please select</option>
+  <option value="male" {{-- {{ ($nomination->gender == "male") ? "selected" : null }} --}}>Male</option>
+    <option value="female" {{-- {{ ($nomination->gender == "female") ? "selected" : null }} --}}>Female</option>
   </select>
 </div>
 
