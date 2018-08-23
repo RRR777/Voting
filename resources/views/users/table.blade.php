@@ -3,26 +3,21 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Role Id</th>
-            <th>Password</th>
-            <th>Avatar</th>
-            <th>Facebook Url</th>
+            <th>Role</th>
             <th>Nickname</th>
-            <th>Remember Token</th>
             <th colspan="3">Action</th>
         </tr>
     </thead>
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td>{!! $user->name !!}</td>
+            <td>
+                <a href="{!! route('users.show', [$user->id]) !!}" style="font-weight: bold"</a>
+                {!! $user->name !!}
+            </td>
             <td>{!! $user->email !!}</td>
-            <td>{!! $user->role_id !!}</td>
-            <td>{!! $user->password !!}</td>
-            <td>{!! $user->avatar !!}</td>
-            <td>{!! $user->facebook_url !!}</td>
+            <td>{!! $user->role->name !!}</td>
             <td>{!! $user->nickname !!}</td>
-            <td>{!! $user->remember_token !!}</td>
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

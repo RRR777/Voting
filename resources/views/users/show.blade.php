@@ -11,9 +11,9 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('users.show_fields')
-                    @if ( Auth::user()->role_id == 1)
+{{--                     @if ( Auth::user()->role_id == 1)
                         <a href="{!! route('users.index') !!}" class="btn btn-default">Back</a>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>

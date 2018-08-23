@@ -40,6 +40,9 @@
                 <li><a href="#">Followers <span class="pull-right badge bg-red">8.42</span></a></li> --}}
                 <li><a href="{{ $user->facebook_url}}">Facebook<span class="pull-right badge bg-blue">Profile</span></a></li>
                 <li><a href="#">Joined<span class="pull-right badge bg-blue">{{ $user->created_at->format('Y M d') }}</span></a></li>
+                @if ( Auth::user()->role_id == 1)
+                    <a href="{!! route('users.edit', [$user->id]) !!}" class='btn btn-primary btn-block'><i class="glyphicon glyphicon-edit"> Edit Profile</i></a>
+                @endif
             </ul>
         </div>
     </div>

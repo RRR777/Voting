@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Role;
 
 class UserController extends AppBaseController
 {
@@ -94,6 +95,7 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
+        $roles = Role::all();
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -101,7 +103,7 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
