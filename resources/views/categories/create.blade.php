@@ -9,14 +9,13 @@
     <div class="content">
         @include('adminlte-templates::common.errors')
         <div class="box box-primary">
-
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'categories.store']) !!}
+                    {{ Form::open(['route' => 'categories.store', 'enctype' => 'multipart/form-data']) }}
 
                         @include('categories.fields')
 
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

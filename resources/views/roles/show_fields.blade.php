@@ -1,30 +1,20 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $role->id !!}</p>
-</div>
-
-<!-- Name Field -->
-<div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{!! $role->name !!}</p>
-</div>
-
-<!-- Deleted At Field -->
-<div class="form-group">
-    {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{!! $role->deleted_at !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $role->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $role->updated_at !!}</p>
-</div>
-
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Deleted at</th>
+            <th>Created_at</th>
+            <th>Updated_at</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ $role->id }}</td>
+            <td>{{ $role->name }}</td>
+            <td>{{ $role->deleted_at }}</td>
+            <td>{{ $role->created_at }}</td>
+            <td>{{ $role->updated_at }}</td>
+        </tr>
+    </tbody>
+</table>

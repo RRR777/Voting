@@ -12,11 +12,11 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'nominationUsers.store']) !!}
+                    {{ Form::open(['route' => 'nominationUsers.store']) }}
 
                         @include('nomination_users.fields')
 
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

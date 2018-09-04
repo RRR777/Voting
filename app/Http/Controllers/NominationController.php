@@ -60,6 +60,11 @@ class NominationController extends AppBaseController
     public function store(CreateNominationRequest $request)
     {
         $input = $request->all();
+
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048'
+        ]);
+
         $input['user_id'] = Auth::user()->id;
 
         //check database if nomination already exist, then add 1
@@ -82,7 +87,20 @@ class NominationController extends AppBaseController
             }
         } else {
             $input['no_of_nominations'] = 1;
+
+            $image = $request->file('image');
+
+            //get the name of the image
+            $input['image'] = $image->getClientOriginalName();
+
             $nomination = $this->nominationRepository->create($input);
+
+            if ($nomination) {
+                //choose where to save it in our Laravel app
+                $destinationPath = public_path('/storage/upload/images/nominations/' . $nomination->id . '/');
+
+                $image->move($destinationPath, $input['image']);
+            }
 
             NominationUser::create([
                 'user_id' => Auth::user()->id,

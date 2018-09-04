@@ -25,6 +25,7 @@ class NominationRepository extends BaseRepository
         'linkedin_url',
         'bio',
         'business_name',
+        'image',
         'reason_for_nomination',
         'no_of_nominations',
         'is_admin_selected',

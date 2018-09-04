@@ -26,7 +26,9 @@ class Category extends Model
 
 
     public $fillable = [
-        'name'
+        'name',
+        'image',
+        'icon'
     ];
 
     /**
@@ -36,7 +38,9 @@ class Category extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string'
+        'name' => 'string',
+        'image' => 'string',
+        'icon' => 'string'
     ];
 
     /**
@@ -45,8 +49,6 @@ class Category extends Model
      * @var array
      */
     public static $rules = [
-        
+        //
     ];
-
-    
 }

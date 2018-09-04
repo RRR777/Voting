@@ -31,7 +31,7 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         $this->userRepository->pushCriteria(new RequestCriteria($request));
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->get();
 
         return view('users.index')
             ->with('users', $users);
@@ -44,7 +44,9 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::pluck('name', 'id');
+        
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -95,7 +97,8 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->findWithoutFail($id);
-        $roles = Role::all();
+        //$roles = Role::all();
+        $roles = Role::pluck('name', 'id');
 
         if (empty($user)) {
             Flash::error('User not found');

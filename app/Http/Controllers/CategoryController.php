@@ -14,6 +14,7 @@ use App\Models\NominationUser;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Voting;
+use App\Models\Category;
 
 class CategoryController extends AppBaseController
 {
@@ -36,6 +37,9 @@ class CategoryController extends AppBaseController
         $this->categoryRepository->pushCriteria(new RequestCriteria($request));
         $categories = $this->categoryRepository->all();
 
+        if (Auth::user()->role_id == 4) {
+            return view('categories.election_index', compact('categories'));
+        }
         return view('categories.index', compact('categories'));
     }
 
@@ -60,7 +64,31 @@ class CategoryController extends AppBaseController
     {
         $input = $request->all();
 
-        $category = $this->categoryRepository->create($input);
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048'
+        ]);
+        
+        $data = $request->all();
+
+        $data['user_id'] = Auth::user()->id;
+
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            //get the name of the image
+            $input['imagename'] = $image->getClientOriginalName();
+            $data['image'] = $input['imagename'];
+        }
+
+        $categoryUpload = Category::create($data);
+
+        if ($categoryUpload) {
+            if ($request->file('image')) {
+                //choose where to save it in our Laravel app
+                $destinationPath = public_path('/storage/upload/images/categories/' . $categoryUpload->id . '/');
+                $image->move($destinationPath, $input['imagename']);
+            }
+        }
+        //$category = $this->categoryRepository->create($input);
 
         Flash::success('Category submitted successfully.');
 
@@ -85,7 +113,7 @@ class CategoryController extends AppBaseController
         }
 
         $nominations = Nomination::where('category_id', $category->id)->get();
-        $nomintationSelecteds = Nomination::where('category_id', $category->id)
+        $nominationSelecteds = Nomination::where('category_id', $category->id)
             ->where('is_admin_selected', 1)
             ->get();
 
@@ -113,13 +141,37 @@ class CategoryController extends AppBaseController
             Flash::success('You have already voted before.');
         }
 
+        $nextCategory = Category::where('id', '>' ,$category->id)->first();
+        $previousCategory = Category::where('id', '<' ,$category->id)->first();
+
+        $totalNominees = Nomination::where('category_id', $category->id)->count();
+        $totalSelectedNominees = Nomination::where('category_id', $category->id)
+            ->where('is_admin_selected', '1')
+            ->count();
+
+        if (Auth::user()->role_id == 4) {
+            return view('categories.election_show', compact(
+                'category',
+                'nomination',
+                'hasNominatedBefore',
+                'nominations',
+                'nominationSelecteds',
+                'checkVote',
+                'nextCategory',
+                'previousCategory'
+            ));
+        }
         return view('categories.show', compact(
             'category',
             'nomination',
             'hasNominatedBefore',
             'nominations',
-            'nomintationSelecteds',
-            'checkVote'
+            'nominationSelecteds',
+            'checkVote',
+            'nextCategory',
+            'previousCategory',
+            'totalNominees',
+            'totalSelectedNominees'
         ));
     }
 
@@ -146,7 +198,7 @@ class CategoryController extends AppBaseController
     /**
      * Update the specified Category in storage.
      *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateCategoryRequest $request
      *
      * @return Response

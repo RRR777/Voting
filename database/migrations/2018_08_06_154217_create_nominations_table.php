@@ -20,6 +20,7 @@ class CreateNominationsTable extends Migration
             $table->string('linkedin_url')->nullable();
             $table->string('bio')->nullable();
             $table->string('business_name')->nullable();
+            $table->string('image')->nullable();
             $table->string('reason_for_nomination')->nullable();
             $table->integer('no_of_nominations');
             $table->integer('no_of_votes')->default(0);

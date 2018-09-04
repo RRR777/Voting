@@ -3,8 +3,11 @@
     <div class="box box-widget widget-user">
         <!-- Add the bg color to the header using any of the bg-* classes -->
         <div class="widget-user-header bg-aqua-active">
-            <h3 class="widget-user-username">{{ $nomination->name }} ({!! $nomination->gender !!})</h3>
+            <h3 class="widget-user-username">{{ $nomination->name }} ({{ $nomination->gender }})</h3>
             <h5 class="widget-user-desc">{{ $nomination->business_name }}</h5>
+            <div class="widget-user-image">
+                <img class="img-circle" src="{{ asset('storage/upload/images/' . $nomination->id . '/' . $nomination->image) }}" alt="{{ $nomination->name }}">
+            </div>
         </div>
         <div class="box-footer">
             <div class="row">
@@ -55,8 +58,8 @@
                 <li><a href="#"><b>Bio </b><span class="pull-right">{{ $nomination->bio }}</span></a></li>
                 @if (Auth::user()->id < 3)
                     <li><a href="#"><b>Reason of nomination </b><span class="pull-right">{{ $nomination->reason_for_nomination }}</span></a></li>
-                    <li><a href="../users/{!! $nomination->user_id !!}"><b>User name </b><span class="pull-right badge bg-blue">{!! $nomination->user->name !!}</span></a></li>
-                    <li><a href="#"><b>Nominated on </b><span class="pull-right">{!! $nomination->created_at->format('Y M d') !!}</span></a></li>
+                    <li><a href="../users/{{ $nomination->user_id }}"><b>User name </b><span class="pull-right badge bg-blue">{{ $nomination->user->name }}</span></a></li>
+                    <li><a href="#"><b>Nominated on </b><span class="pull-right">{{ $nomination->created_at->format('Y M d') }}</span></a></li>
                 @endif
             </ul>
         </div>

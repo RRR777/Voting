@@ -10,17 +10,17 @@
     <tbody>
     @foreach($votings as $voting)
         <tr>
-            <td>{!! $voting->user_id !!}</td>
-            <td>{!! $voting->nomination_id !!}</td>
-            <td>{!! $voting->category_id !!}</td>
+            <td>{{ $voting->user_id }}</td>
+            <td>{{ $voting->nomination_id }}</td>
+            <td>{{ $voting->category_id }}</td>
             <td>
-                {!! Form::open(['route' => ['votings.destroy', $voting->id], 'method' => 'delete']) !!}
+                {{ Form::open(['route' => ['votings.destroy', $voting->id], 'method' => 'delete']) }}
                 <div class='btn-group'>
-                    <a href="{!! route('votings.show', [$voting->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('votings.edit', [$voting->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{{ route('votings.show', [$voting->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a href="{{ route('votings.edit', [$voting->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                    {{ Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) }}
                 </div>
-                {!! Form::close() !!}
+                {{ Form::close() }}
             </td>
         </tr>
     @endforeach

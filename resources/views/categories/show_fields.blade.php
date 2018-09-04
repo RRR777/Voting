@@ -1,39 +1,37 @@
-
-    <div class="col-md-2">
+    <div class="col-md-3">
         <!-- Profile Image -->
         <div class="box box-primary">
             <div class="box-body box-profile">
                 <h3 class="profile-username text-center">{{ $category->name }}</h3>
                 <p class="text-muted text-center">Last Updated: {{ $category->created_at->format('Y M d') }}</p>
-                {{-- <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                    <b>Followers</b> <a class="pull-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Following</b> <a class="pull-right">543</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Friends</b> <a class="pull-right">13,287</a>
-                </li>
-                </ul>
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> --}}
+                @if (Auth::user()->role_id == 1)
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Total<br> Nominees</b> <a class="pull-right">{{ $totalNominees }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Selected<br> Nominees</b> <a class="pull-right">{{ $totalSelectedNominees }}</a>
+                        </li>
+                    </ul>
+                @endif
             </div>
-            <!-- /.box-body -->
         </div>
-        <!-- /.box -->
     </div>
     <!-- /.col -->
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                @if (Auth::user()->role_id == 4)
-                    <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
-{{--                     <li class=""><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li> --}}
-                @endif
+{{--                 @if (Auth::user()->role_id == 4)
+                    @if ($whatPeriodIs == "nomination") --}}
+                        <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
+{{--                     @elseif ($whatPeriodIs == "voting") --}}
+                        <li><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li>
+{{--                     @endif
+                @endif --}}
                 <li class="
-                    @if (Auth::user()->role_id != 4)
+{{--                     @if (Auth::user()->role_id != 4)
                         active
-                    @endif
+                    @endif --}}
                 "><a href="#nominees" data-toggle="tab" aria-expanded="false">Nominees</a></li>
             </ul>
             <div class="tab-content">
@@ -47,11 +45,11 @@
                         @if (!isset($hasNominatedBefore) || $hasNominatedBefore == 0 )
                             <h2>Nominate a candidate</h2>
                             <div class="row">
-                                {!! Form::open(['route' => 'nominations.store']) !!}
+                                {{ Form::open(['route' => 'nominations.store', 'enctype' => 'multipart/form-data']) }}
 
                                     @include('nominations.fields')
 
-                                {!! Form::close() !!}
+                                {{ Form::close() }}
                             </div>
                         @else
                             <div class="col-md-6">
@@ -61,6 +59,10 @@
                                     <!-- Add the bg color to the header using any of the bg-* classes -->
                                     <div class="widget-user-header bg-aqua-active">
                                         <h3 class="widget-user-username">{{ $nomination->name }}</h3>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="{{ asset('storage/upload/images/nominations/' . $nomination->id . '/' . $nomination->image) }}" alt="">
+                                        </div>
+                                        <img src="{{ asset('storage/upload/images/nominations/' . $nomination->id . '/' . $nomination->image) }}">
                                         <h5 class="widget-user-desc">{{ $nomination->linkedin_url }}</h5>
                                     </div>
                                     <div class="box-footer">

@@ -8,14 +8,15 @@
    </section>
    <div class="content">
        @include('adminlte-templates::common.errors')
+       @include('flash::message')
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($setting, ['route' => ['settings.update', $setting->id], 'method' => 'patch']) !!}
+                   {{ Form::model($setting, ['route' => ['settings.update', $setting->id], 'method' => 'patch']) }}
 
                         @include('settings.fields')
 
-                   {!! Form::close() !!}
+                   {{ Form::close() }}
                </div>
            </div>
        </div>

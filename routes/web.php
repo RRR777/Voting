@@ -11,13 +11,18 @@
 |
  */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-})->middleware('auth');
+}); */
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
+
+/* Route::get('/election', function () {
+    return view('election_home');
+})->name('election'); */
+
 
 //facebook login
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('login.facebook');
@@ -58,9 +63,9 @@ Route::middleware(['moderator'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('categories', 'CategoryController');
-    Route::resource('nominations', 'NominationController');
-    Route::resource('votings', 'VotingController');
-    Route::resource('users', 'UserController');
+/*     Route::resource('nominations', 'NominationController'); */
+/*     Route::resource('votings', 'VotingController'); */
+/*     Route::resource('users', 'UserController'); */
     Route::get('nominations/vote/{nomination_id}/{category_id}', 'NominationController@vote')
         ->name('nominations.vote');
 });

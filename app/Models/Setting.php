@@ -56,7 +56,7 @@ class Setting extends Model
      * @var array
      */
     public static $rules = [
-        
+        //
     ];
 
     
