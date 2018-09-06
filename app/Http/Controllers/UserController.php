@@ -44,9 +44,9 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        $roles = Role::pluck('name', 'id');
+/*         $roles = Role::pluck('name', 'id');
         
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles')); */
     }
 
     /**
@@ -58,13 +58,13 @@ class UserController extends AppBaseController
      */
     public function store(CreateUserRequest $request)
     {
-        $input = $request->all();
+/*         $input = $request->all();
 
         $user = $this->userRepository->create($input);
 
         Flash::success('User saved successfully.');
 
-        return redirect(route('users.index'));
+        return redirect(route('users.index')); */
     }
 
     /**
@@ -127,7 +127,12 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        $user = $this->userRepository->update([
+            'avatar' => $request->avatar,
+            'facebook_url' => $request->facebook_url,
+            'nickname' => $request->nickname,
+            'role_id' => $request->role_id
+        ], $id);
 
         Flash::success('User updated successfully.');
 

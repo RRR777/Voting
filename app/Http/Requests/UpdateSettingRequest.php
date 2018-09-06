@@ -27,4 +27,14 @@ class UpdateSettingRequest extends FormRequest
     {
         return Setting::$rules;
     }
+
+        /**
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return Setting::$messages;
+    }
 }

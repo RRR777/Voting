@@ -58,16 +58,26 @@ class User extends Model
         'remember_token' => 'string',
     ];
 
-    /**
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
+
+        /**
      * Validation rules
      *
      * @var array
      */
     public static $rules = [
-
+        //
     ];
-    public function role()
-    {
-        return $this->belongsTo('App\Models\Role');
-    }
+
+        /**
+     * Validation messages
+     *
+     * @var array
+     */
+    public static $messages = [
+        //
+    ];
 }

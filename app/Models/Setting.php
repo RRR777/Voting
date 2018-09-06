@@ -56,8 +56,28 @@ class Setting extends Model
      * @var array
      */
     public static $rules = [
-        //
+        'nomination_start_date' => 'required|date',
+        'nomination_end_date' => 'required|date|after:nomination_start_date',
+        'voting_start_date' => 'required|date|after:nomination_end_date',
+        'voting_end_date' => 'required|date|after:voting_start_date'
     ];
 
-    
+        /**
+     * Validation messages
+     *
+     * @var array
+     */
+    public static $messages = [
+        'nomination_start_date.required' => 'Input Nomination start date.',
+        'nomination_start_date.date' => 'Input Nomination start date.',
+        'nomination_end_date.required' => 'Input Nomination end date.',
+        'nomination_end_date.date' => 'Input Nomination end date.',
+        'nomination_end_date.after' => 'Nomination end date must be later than Nomination start date.',
+        'voting_start_date.required' => 'Input Voting start date.',
+        'voting_start_date.date' => 'Input Voting start date.',
+        'voting_start_date.after' => 'Voting start date must be later than Nomination end date.',
+        'voting_end_date.required' => 'Input Voting end date.',
+        'voting_end_date.date' => 'Input Voting end date.',
+        'voting_end_date.after' => 'Voting end date must be later than Voting start date.'
+    ];
 }

@@ -10,7 +10,6 @@
         @include('adminlte-templates::common.errors')
         @include('flash::message')
         <div class="box box-primary">
-
             <div class="box-body">
                 <div class="row">
                     {{ Form::open(['route' => 'settings.store']) }}

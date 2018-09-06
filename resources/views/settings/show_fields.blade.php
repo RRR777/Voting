@@ -45,4 +45,3 @@
     {{ Form::label('updated_at', 'Updated At:') }}
     <p>{{ $setting->updated_at }}</p>
 </div>
-

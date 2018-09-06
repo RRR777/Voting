@@ -1,25 +1,25 @@
 <!-- Nomination Start Date Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('nomination_start_date', 'Nomination Start Date:') }}
-    {{ Form::date('nomination_start_date', null, ['class' => 'form-control']) }}
+    {{ Form::date('nomination_start_date', isset($setting->nomination_start_date) ? $setting->nomination_start_date : null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Nomination End Date Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('nomination_end_date', 'Nomination End Date:') }}
-    {{ Form::date('nomination_end_date', null, ['class' => 'form-control']) }}
+    {{ Form::date('nomination_end_date', isset($setting->nomination_end_date) ? $setting->nomination_end_date : null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Voting Start Date Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('voting_start_date', 'Voting Start Date:') }}
-    {{ Form::date('voting_start_date', null, ['class' => 'form-control']) }}
+    {{ Form::date('voting_start_date', isset($setting->voting_start_date) ? $setting->voting_start_date : null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Voting End Date Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('voting_end_date', 'Voting End Date:') }}
-    {{ Form::date('voting_end_date', null, ['class' => 'form-control']) }}
+    {{ Form::date('voting_end_date', isset($setting->voting_end_date) ? $setting->voting_end_date : null, ['class' => 'form-control']) }}
 </div>
 
 <!-- Submit Field -->
