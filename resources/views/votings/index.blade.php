@@ -15,11 +15,10 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('votings.table')
+                @include('votings.table')
             </div>
         </div>
         <div class="text-center">
-        
         </div>
     </div>
 @endsection

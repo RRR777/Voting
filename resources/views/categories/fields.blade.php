@@ -1,13 +1,13 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('name', 'Name:') }}
-    {{ Form::text('name', null, ['class' => 'form-control']) }}
+    {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => "Enter Category name"]) }}
 </div>
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">
-    {{ Form::label('icon', 'Name of Icon from fontawesome:') }}
-    {{ Form::text('icon', null, ['class' => 'form-control']) }}
+    {{ Form::label('icon', 'Name of Icon from glyphicon:') }}
+    {{ Form::text('icon', null, ['class' => 'form-control', 'placeholder' => "example 'glyphicon-asterisk'"]) }}
 </div>
 
 <!-- Image Field -->

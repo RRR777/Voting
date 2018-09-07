@@ -4,6 +4,10 @@
     <section class="content-header">
         <h1>
             Role
+            <small>
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                {{ $role->name }}
+            </small>
         </h1>
     </section>
     <div class="content">

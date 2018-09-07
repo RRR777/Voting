@@ -8,25 +8,25 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($categories as $category)
-        <tr>
-            <td>
-                <a href="{{ route('categories.show', [$category->id]) }}" class='btn btn-default'>
-                    <i class="glyphicon {{ $category->icon }}"></i> {{ $category->name }}
-                </a>
-            </td>
-            @if ( Auth::user()->role_id < 3)
+        @foreach($categories as $category)
+            <tr>
                 <td>
-                    {{ Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete']) }}
-                        <div class='btn-group'>
-                            <a href="{{ route('categories.show', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                            <a href="{{ route('categories.edit', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                            {{ Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) }}
-                        </div>
-                    {{ Form::close() }}
+                    <a href="{{ route('categories.show', [$category->id]) }}" class='btn btn-default'>
+                        <i class="glyphicon {{ $category->icon }}"></i> {{ $category->name }}
+                    </a>
                 </td>
-            @endif
-        </tr>
-    @endforeach
+                @if ( Auth::user()->role_id < 3)
+                    <td>
+                        {{ Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete']) }}
+                            <div class='btn-group'>
+                                <a href="{{ route('categories.show', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                                <a href="{{ route('categories.edit', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                                {{ Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) }}
+                            </div>
+                        {{ Form::close() }}
+                    </td>
+                @endif
+            </tr>
+        @endforeach
     </tbody>
 </table>

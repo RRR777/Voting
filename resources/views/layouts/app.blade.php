@@ -48,7 +48,8 @@
         <header class="main-header">
             <!-- Logo -->
             <a href="#" class="logo">
-                <b>Voting App</b>
+                <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+                <span class="hidden-xs"><b>Voting App</b></span>
             </a>
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">

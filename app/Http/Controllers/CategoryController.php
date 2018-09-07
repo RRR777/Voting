@@ -37,7 +37,7 @@ class CategoryController extends AppBaseController
         $this->categoryRepository->pushCriteria(new RequestCriteria($request));
         $categories = $this->categoryRepository->all();
 
-        if (Auth::user()->role_id == 4) {
+        if (Auth::user()->role_id == 6) {
             return view('categories.election_index', compact('categories'));
         }
         return view('categories.index', compact('categories'));
@@ -62,6 +62,7 @@ class CategoryController extends AppBaseController
      */
     public function store(CreateCategoryRequest $request)
     {
+        dd($request);
         $input = $request->all();
 
         $this->validate($request, [
@@ -89,6 +90,8 @@ class CategoryController extends AppBaseController
             }
         }
         //$category = $this->categoryRepository->create($input);
+
+        
 
         Flash::success('Category submitted successfully.');
 
@@ -149,7 +152,7 @@ class CategoryController extends AppBaseController
             ->where('is_admin_selected', '1')
             ->count();
 
-        if (Auth::user()->role_id == 4) {
+        if (Auth::user()->role_id == 6) {
             return view('categories.election_show', compact(
                 'category',
                 'nomination',

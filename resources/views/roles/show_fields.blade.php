@@ -3,7 +3,6 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Deleted at</th>
             <th>Created_at</th>
             <th>Updated_at</th>
         </tr>
@@ -12,7 +11,6 @@
         <tr>
             <td>{{ $role->id }}</td>
             <td>{{ $role->name }}</td>
-            <td>{{ $role->deleted_at }}</td>
             <td>{{ $role->created_at }}</td>
             <td>{{ $role->updated_at }}</td>
         </tr>

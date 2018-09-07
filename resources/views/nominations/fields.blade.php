@@ -1,7 +1,7 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('name', 'Full Name:') }}
-    {{ Form::text('name', null, ['class' => 'form-control']) }}
+    {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => "Enter First Name Lastname", 'required']) }}
 </div>
 
 <!-- Gender Field -->
@@ -14,30 +14,29 @@
 <!-- Linkedin Url Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('linkedin_url', 'Linkedin Url:') }}
-    {{ Form::text('linkedin_url', null, ['class' => 'form-control']) }}
+    {{ Form::text('linkedin_url', null, ['class' => 'form-control', 'placeholder' => "Enter LinkedIn url"]) }}
 </div>
 
 <!-- Blo Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('bio', 'Bio:') }}
-    {{ Form::text('bio', null, ['class' => 'form-control']) }}
+    {{ Form::text('bio', null, ['class' => 'form-control', 'placeholder' => "Enter bio"]) }}
 </div>
 
 <!-- Business Name Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('business_name', 'Business Name:') }}
-    {{ Form::text('business_name', null, ['class' => 'form-control']) }}
+    {{ Form::text('business_name', null, ['class' => 'form-control', 'placeholder' => "Enter Business name"]) }}
 </div>
 
 <!-- Reason For Nomination Field -->
 <div class="form-group col-sm-6">
     {{ Form::label('reason_for_nomination', 'Reason For Nomination:') }}
-    {{ Form::text('reason_for_nomination', null, ['class' => 'form-control']) }}
+    {{ Form::text('reason_for_nomination', null, ['class' => 'form-control', 'placeholder' => "Enter reason of nomination"]) }}
 </div>
 
 <!-- No Of Numinations Field -->
 <div class="form-group col-sm-6">
-{{--     {{ Form::label('no_of_nominations', 'No Of Nominations:') }} --}}
     {{ Form::hidden('no_of_nominations', null, ['class' => 'form-control']) }}
 </div>
 
@@ -63,7 +62,7 @@
 
 <!-- Image Field -->
 <div class="form-group col-sm-6">
-    {{ Form::label('image', 'Image of Nominee (optional, 5MB max):') }}
+    {{ Form::label('image', 'Image of Candidate (optional, 5MB max):') }}
     {{ Form::file('image', null, ['class' => 'form-control']) }}
 </div>
 

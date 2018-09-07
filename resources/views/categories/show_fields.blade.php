@@ -1,142 +1,137 @@
-    <div class="col-md-3">
-        <!-- Profile Image -->
-        <div class="box box-primary">
-            <div class="box-body box-profile">
-                <h3 class="profile-username text-center">{{ $category->name }}</h3>
-                <p class="text-muted text-center">Last Updated: {{ $category->created_at->format('Y M d') }}</p>
-                @if (Auth::user()->role_id == 1)
-                    <ul class="list-group list-group-unbordered">
-                        <li class="list-group-item">
-                            <b>Total<br> Nominees</b> <a class="pull-right">{{ $totalNominees }}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Selected<br> Nominees</b> <a class="pull-right">{{ $totalSelectedNominees }}</a>
-                        </li>
-                    </ul>
-                @endif
-            </div>
+{{-- <div class="col-md-3">
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            <h3 class="profile-username text-center">
+                <i class="glyphicon {{ $category->icon }}"></i>
+                {{ $category->name }}
+            </h3>
+            <p class="text-muted text-center">Last Updated: 
+                <br>
+                {{ $category->created_at->format('Y M d') }}
+            </p>
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                    <b>Total<br> Nominees</b> <a class="pull-right">{{ $totalNominees }}</a>
+                </li>
+                <li class="list-group-item">
+                    <b>Selected<br> Nominees</b> <a class="pull-right">{{ $totalSelectedNominees }}</a>
+                </li>
+            </ul>
         </div>
     </div>
+</div> --}}
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total</span>
+                <span class="info-box-text">Nominees</span>
+                <span class="info-box-number">{{ $totalNominees }}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
     <!-- /.col -->
-    <div class="col-md-9">
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-{{--                 @if (Auth::user()->role_id == 4)
-                    @if ($whatPeriodIs == "nomination") --}}
-                        <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="true">Nomination</a></li>
-{{--                     @elseif ($whatPeriodIs == "voting") --}}
-                        <li><a href="#vote" data-toggle="tab" aria-expanded="false">Vote</a></li>
-{{--                     @endif
-                @endif --}}
-                <li class="
-{{--                     @if (Auth::user()->role_id != 4)
-                        active
-                    @endif --}}
-                "><a href="#nominees" data-toggle="tab" aria-expanded="false">Nominees</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane 
-                    @if (Auth::user()->role_id == 4)
-                        active
-                    @endif
-                " id="nomination">
-                    <div class="box-body">
-                        {{-- Dispalay form if user hasn't nominated before --}}
-                        @if (!isset($hasNominatedBefore) || $hasNominatedBefore == 0 )
-                            <h2>Nominate a candidate</h2>
-                            <div class="row">
-                                {{ Form::open(['route' => 'nominations.store', 'enctype' => 'multipart/form-data']) }}
-
-                                    @include('nominations.fields')
-
-                                {{ Form::close() }}
-                            </div>
-                        @else
-                            <div class="col-md-6">
-                                <h4>You have already nominated</h4>
-                                <!-- Widget: user widget style 1 -->
-                                <div class="box box-widget widget-user">
-                                    <!-- Add the bg color to the header using any of the bg-* classes -->
-                                    <div class="widget-user-header bg-aqua-active">
-                                        <h3 class="widget-user-username">{{ $nomination->name }}</h3>
-                                        <div class="widget-user-image">
-                                            <img class="img-circle" src="{{ asset('storage/upload/images/nominations/' . $nomination->id . '/' . $nomination->image) }}" alt="">
-                                        </div>
-                                        <img src="{{ asset('storage/upload/images/nominations/' . $nomination->id . '/' . $nomination->image) }}">
-                                        <h5 class="widget-user-desc">{{ $nomination->linkedin_url }}</h5>
-                                    </div>
-                                    <div class="box-footer">
-                                        <div class="row">
-                                            <div class="col-sm-6 border-right">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">Gender</h5>
-                                                    <span class="description-text">{{ $nomination->gender }}</span>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                            <!-- /.col -->
-                                            <div class="col-sm-6 border-right">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">No of Nominations</h5>
-                                                    <span class="description-text">{{ $nomination->no_of_nominations }}</span>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                            <!-- /.col -->
-                                        </div>
-                                        <!-- /.row -->
-                                    </div>
-                                    <div class="box-footer no-padding">
-                                        <ul class="nav nav-stacked">
-                                            <li><a href="#"><b>Nominated on</b><span class="pull-right">{{ $nomination->created_at->format('Y M d') }}</span></a></li>
-                                            <li><a href="#"><b>LinkedIn</b><span class="pull-right">{{ isset($nomination->linkedin_url) ? $nomination->linkedin_url : null }}</span></a></li>
-                                            <li><a href="#"><b>Bio</b><span class="pull-right">{{ isset($nomination->bio) ? $nomination->bio : null }}</span></a></li>
-                                            <li><a href="#"><b>Business name</b><span class="pull-right">{{ isset($nomination->business_name) ? $nomination->business_name : null }}</span></a></li>
-                                            <li><a href="#"><b>Category</b><span class="pull-right">{{ $category->name }}</span></a></li>
-                                            <li><a href=""><b>Reason of nomination</b><span class="pull-right">{{ isset($nomination->reason_for_nomination) ? $nomination->reason_for_nomination : null }}</span></a></li>
-                                            <li><a href=""><b>Selected by Admin?</b><span class="pull-right">{{ $nomination->is_admin_selected == 0 ? "not yet" : "yes" }}</span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /.widget-user -->
-                            </div>
-                        @endif
-                    </div>
-                </div>
-{{--                 <!-- /.tab-pane -->
-                <div class="tab-pane" id="vote">
-                    //Our Vote code here
-                </div>
-                <!-- /.tab-pane --> --}}
-                <div class="tab-pane
-                    @if (Auth::user()->role_id != 4)
-                        active
-                    @endif
-                " id="nominees">
-                    @if (isset($nomintationSelecteds))
-                        <h3>Selected Nominees</h3>
-                        <div class="box box-primary">
-                            <div class="box-body">
-                                    @include('nominations.selected_nominees')
-                            </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-ios-person"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Selected</span>
+                <span class="info-box-text">Nominees</span>
+                <span class="info-box-number">{{ $totalSelectedNominees }}</span>
+            </div>
+            <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="ion ion-ios-person"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Days Left</span>
+          <span class="info-box-number">760</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">New Members</span>
+          <span class="info-box-number">2,000</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="col-md-12">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            @if ($whatPeriodIs == "nomination")
+                <li class="active"><a href="#nomination" data-toggle="tab" aria-expanded="false">Nomination</a></li>
+            @endif
+            <li class="{{ $whatPeriodIs == "voting" ? "active" : "" }}">
+                <a href="#nominees" data-toggle="tab" aria-expanded="false">Nominees</a>
+            </li>
+            @if (Auth::user()->role_id == 1)
+                <li><a href="#all_nominees" data-toggle="tab" aria-expanded="false">All Nominees</a></li>
+            @endif
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane {{ $whatPeriodIs == "nomination" ? "active" : "" }}" id="nomination">
+                <div class="box-body">
+                    @if (!isset($hasNominatedBefore) || $hasNominatedBefore == 0 )
+                        <h2>Nominate a candidate</h2>
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <small style="color: red">* You could nominate only one candidate per category</small>
+                        <br>
+                        <br>
+                        <div class="row">
+                            {{ Form::open(['route' => 'nominations.store', 'enctype' => 'multipart/form-data']) }}
+                                @include('nominations.fields')
+                            {{ Form::close() }}
                         </div>
                     @else
-                        <p>There are no selected nominess for voting</p>
-                    @endif
-                    @if (Auth::user()->role_id < 3)
-                        <h3>All nominees</h3>
-                        <div class="box box-primary">
-                            <div class="box-body">
-                                    @include('nominations.table')
-                            </div>
-                        </div>
+                        @include('flash::message')
+                        <h4>You have already nominated !</h4>
+                        @include('nominations.show_fields')
                     @endif
                 </div>
-                <!-- /.tab-pane -->
             </div>
-            <!-- /.tab-content -->
+            <div class="tab-pane {{ $whatPeriodIs == "voting" ? "active" : "" }}" id="nominees">
+                    <h3>Selected Nominees</h3>
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            @if (!$nominationSelecteds->isEmpty())
+                                @include('flash::message')
+                                @include('nominations.selected_nominees')
+                            @else
+                                @include('flash::message')
+                                <p>There are no selected nominess for voting</p>
+                            @endif
+                        </div>
+                    </div>
+            </div>
+            @if (Auth::user()->role_id == 1)
+                <div class="tab-pane" id="all_nominees">
+                    <h3>All nominees</h3>
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            @include('nominations.table')
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
-        <!-- /.nav-tabs-custom -->
     </div>
-    <!-- /.col -->
-
+</div>

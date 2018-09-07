@@ -4,6 +4,10 @@
     <section class="content-header">
         <h1>
             Settings
+            <small>
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                Add new nomination and voting period
+            </small>
         </h1>
     </section>
     <div class="content">
