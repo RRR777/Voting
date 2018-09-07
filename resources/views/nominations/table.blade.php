@@ -21,7 +21,7 @@
                 <td>{{ $nomination->no_of_nominations }}</td>
                 <td>{{ $nomination->is_admin_selected == 1 ? "yes" : "no"}}</td>
                 <td>{{ $nomination->is_won == 1 ? "yes" : "no"}}</td>
-                <td>{{ $nomination->category->name }}</td>
+                <td>{{ isset($nomination->category->name) ? $nomination->category->name : null }}</td>
 {{--                 <td>
                     {{ Form::open(['route' => ['nominations.destroy', $nomination->id], 'method' => 'delete']) }}
                         <div class='btn-group'>

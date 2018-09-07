@@ -26,10 +26,20 @@ class CreateNominationsTable extends Migration
             $table->integer('no_of_votes')->default(0);
             $table->boolean("is_admin_selected")->default(0);
             $table->boolean("is_won")->default(0);
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('category_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
         });
     }
 

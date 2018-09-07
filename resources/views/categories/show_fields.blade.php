@@ -1,26 +1,17 @@
-{{-- <div class="col-md-3">
-    <div class="box box-primary">
-        <div class="box-body box-profile">
-            <h3 class="profile-username text-center">
-                <i class="glyphicon {{ $category->icon }}"></i>
-                {{ $category->name }}
-            </h3>
-            <p class="text-muted text-center">Last Updated: 
-                <br>
-                {{ $category->created_at->format('Y M d') }}
-            </p>
-            <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                    <b>Total<br> Nominees</b> <a class="pull-right">{{ $totalNominees }}</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Selected<br> Nominees</b> <a class="pull-right">{{ $totalSelectedNominees }}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div> --}}
 <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="glyphicon {{ $category->icon }}"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Category</span>
+                <span class="info-box-number">{{ $category->name }}</span>
+                <span class="info-box-text">{{ $category->created_at->format('Y-m-d') }}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
@@ -43,36 +34,32 @@
                 <span class="info-box-number">{{ $totalSelectedNominees }}</span>
             </div>
             <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
+        </div>
+        <!-- /.info-box -->
     </div>
     <!-- /.col -->
     <!-- fix for small devices only -->
     <div class="clearfix visible-sm-block"></div>
     <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
-        <span class="info-box-icon bg-green"><i class="ion ion-ios-person"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-text">Days Left</span>
-          <span class="info-box-number">760</span>
+            <span class="info-box-icon bg-green"><i class="{{ ($whatPeriodIs == "nomination") ? "fa fa-award" : "fas fa-trophy" }}"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">{{ ($whatPeriodIs == "nomination") ? "Nomination" : "Voting" }}</span>
+                <span class="info-box-text">Days Left</span>
+                <span class="info-box-number">
+                    @if ($whatPeriodIs == "nomination")
+                        {{ $leftNominationDays }}
+                    @elseif ($whatPeriodIs == "voting")
+                        {{ $leftVotingDays }}
+                    @endif
+                </span>
+            </div>
+            <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
+        <!-- /.info-box -->
     </div>
     <!-- /.col -->
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-text">New Members</span>
-          <span class="info-box-number">2,000</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
+
 </div>
 <div class="col-md-12">
     <div class="nav-tabs-custom">
@@ -103,7 +90,6 @@
                         </div>
                     @else
                         @include('flash::message')
-                        <h4>You have already nominated !</h4>
                         @include('nominations.show_fields')
                     @endif
                 </div>

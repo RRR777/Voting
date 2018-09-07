@@ -87,7 +87,7 @@
                                 @if (isset(Auth::user()->avatar))
                                     <img src="{{ Auth::user()->avatar }}" class="user-image" alt=""/>
                                 @else
-                                    <i class="fas fa-user"></i>
+                                    <img src="{{ asset('/storage/upload/images/users/avatar5.png') }}" class="user-image" alt=""/>
                                 @endif
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{{ Auth::user()->name }}</span>

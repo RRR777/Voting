@@ -39,7 +39,7 @@
             <ul class="nav nav-stacked">
                 <li><a href="#"><b>Category</b><span class="pull-right">{{ $nomination->category->name }}</span></a></li>
                 <li><a href="#"><b>Nominated on</b><span class="pull-right">{{ $nomination->created_at->format('Y M d') }}</span></a></li>
-                <li><a href="{{ $nomination->linkedin_url }}"><b>LinkedIn </b><span class="pull-right badge bg-blue">View LinkedIn Profile</span></a></li>
+                <li><a href="#"><b>LinkedIn </b><span class="pull-right badge bg-blue">View LinkedIn Profile</span></a></li>
                 <li><a href="#"><b>Bio </b><span class="pull-right">{{ $nomination->bio }}</span></a></li>
                 <li><a href=""><b>Gender</b><span class="pull-right">{{ $nomination->gender }}</span></a></li>
                 <li><a href="#"><b>Reason of nomination </b><span class="pull-right">{{ $nomination->reason_for_nomination }}</span></a></li>

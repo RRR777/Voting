@@ -15,6 +15,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Voting;
 use App\Models\Category;
+use App\Models\Setting;
+use Carbon\Carbon;
 
 class CategoryController extends AppBaseController
 {
@@ -62,36 +64,26 @@ class CategoryController extends AppBaseController
      */
     public function store(CreateCategoryRequest $request)
     {
-        dd($request);
-        $input = $request->all();
-
         $this->validate($request, [
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048'
         ]);
-        
-        $data = $request->all();
 
+        $data = $request->all();
         $data['user_id'] = Auth::user()->id;
 
         if ($request->file('image')) {
             $image = $request->file('image');
-            //get the name of the image
-            $input['imagename'] = $image->getClientOriginalName();
-            $data['image'] = $input['imagename'];
+            $data['image'] = $image->getClientOriginalName();
         }
 
-        $categoryUpload = Category::create($data);
+        $categoryUpload = $this->categoryRepository->create($data);
 
         if ($categoryUpload) {
             if ($request->file('image')) {
-                //choose where to save it in our Laravel app
                 $destinationPath = public_path('/storage/upload/images/categories/' . $categoryUpload->id . '/');
-                $image->move($destinationPath, $input['imagename']);
+                $image->move($destinationPath, $data['image']);
             }
         }
-        //$category = $this->categoryRepository->create($input);
-
-        
 
         Flash::success('Category submitted successfully.');
 
@@ -120,8 +112,8 @@ class CategoryController extends AppBaseController
             ->where('is_admin_selected', 1)
             ->get();
 
-        //check if this viewer has nominated someone in this category before
-        // A user ca only nominate one person per category
+        //check if this user has nominated someone in this category before
+        // A user can nominate only one person per category
         $hasNominatedBefore = 0;
         $nomination = 0;
         $nominationUser = NominationUser::where('user_id', Auth::user()->id)
@@ -129,10 +121,9 @@ class CategoryController extends AppBaseController
 
         if ($nominationUser) {
             $hasNominatedBefore = 1;
-            //get details the nomination they made
             $nomination = Nomination::find($nominationUser->nomination_id);
 
-            Flash::success('You have already nominated some one in this category.');
+            Flash::success('You have already nominated in this category.');
         }
 
         //check if the user already voted in this category before?
@@ -144,13 +135,18 @@ class CategoryController extends AppBaseController
             Flash::success('You have already voted before.');
         }
 
-        $nextCategory = Category::where('id', '>' ,$category->id)->first();
-        $previousCategory = Category::where('id', '<' ,$category->id)->first();
+        $nextCategory = Category::where('id', '>' ,$category->id)->orderBy('id','asc')->first();
+        $previousCategory = Category::where('id', '<' ,$category->id)->orderBy('id','desc')->first();
 
         $totalNominees = Nomination::where('category_id', $category->id)->count();
         $totalSelectedNominees = Nomination::where('category_id', $category->id)
             ->where('is_admin_selected', '1')
             ->count();
+
+        $setting = Setting::first();
+        $now = Carbon::now();
+        $leftNominationDays = $setting->nomination_end_date->diffInDays($now);
+        $leftVotingDays = $setting->voting_end_date->diffInDays($now);
 
         if (Auth::user()->role_id == 6) {
             return view('categories.election_show', compact(
@@ -161,7 +157,11 @@ class CategoryController extends AppBaseController
                 'nominationSelecteds',
                 'checkVote',
                 'nextCategory',
-                'previousCategory'
+                'previousCategory',
+                'totalNominees',
+                'totalSelectedNominees',
+                'leftNominationDays',
+                'leftVotingDays'
             ));
         }
         return view('categories.show', compact(
@@ -174,7 +174,9 @@ class CategoryController extends AppBaseController
             'nextCategory',
             'previousCategory',
             'totalNominees',
-            'totalSelectedNominees'
+            'totalSelectedNominees',
+            'leftNominationDays',
+            'leftVotingDays'
         ));
     }
 
@@ -215,9 +217,25 @@ class CategoryController extends AppBaseController
 
             return redirect(route('categories.index'));
         }
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048'
+        ]);
 
-        $category = $this->categoryRepository->update($request->all(), $id);
+        $input = $request->all();
 
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $input['image'] = $image->getClientOriginalName();
+        }
+
+        $category = $this->categoryRepository->update($input, $id);
+
+        if ($category) {
+            if ($request->file('image')) {
+                $destinationPath = public_path('/storage/upload/images/categories/' . $category->id . '/');
+                $image->move($destinationPath, $input['image']);
+            }
+        }
         Flash::success('Category updated successfully.');
 
         return redirect(route('categories.index'));

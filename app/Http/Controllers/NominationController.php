@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Voting;
+use App\Models\Category;
 
 class NominationController extends AppBaseController
 {
@@ -69,6 +70,8 @@ class NominationController extends AppBaseController
 
         //check database if nomination already exist, then add 1
         $nominationsCheck = Nomination::where('name', $request->input('name'))->first();
+        $category = Category::where('id', $request->input('category_id'))->first();
+
         if ($nominationsCheck) {
             if ($nominationsCheck->user_id != Auth::user()->id) {
                 $no_of_nominations = $nominationsCheck->no_of_nominations;
@@ -80,26 +83,26 @@ class NominationController extends AppBaseController
                     'user_id' => Auth::user()->id,
                     'category_id' => $request->input('category_id'),
                     'nomination_id' => $nominationsCheck->id,
-
                 ]);
             } else {
                 Flash::success('This nomination already exist.');
+
+                return redirect(route('categories.show', compact('category')));
             }
         } else {
             $input['no_of_nominations'] = 1;
 
-            $image = $request->file('image');
-
-            //get the name of the image
-            $input['image'] = $image->getClientOriginalName();
-
+            if ($request->file('image')) {
+                $image = $request->file('image');
+                $input['image'] = $image->getClientOriginalName();
+            }
             $nomination = $this->nominationRepository->create($input);
 
             if ($nomination) {
-                //choose where to save it in our Laravel app
-                $destinationPath = public_path('/storage/upload/images/nominations/' . $nomination->id . '/');
-
-                $image->move($destinationPath, $input['image']);
+                if ($request->file('image')) {
+                    $destinationPath = public_path('/storage/upload/images/nominations/' . $nomination->id . '/');
+                    $image->move($destinationPath, $input['image']);
+                }
             }
 
             NominationUser::create([
@@ -111,7 +114,7 @@ class NominationController extends AppBaseController
 
         Flash::success('Nomination submited successfully.');
 
-        return redirect()->back();
+        return redirect(route('categories.show', compact('category')));
     }
 
     /**
@@ -172,8 +175,24 @@ class NominationController extends AppBaseController
 
             return redirect(route('nominations.index'));
         }
+        $input = $request->all();
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048'
+        ]);
+        //$category = Category::where('id', $request->input('category_id'))->first();
 
-        $nomination = $this->nominationRepository->update($request->all(), $id);
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $input['image'] = $image->getClientOriginalName();
+        }
+        $nomination = $this->nominationRepository->update($input, $id);
+
+        if ($nomination) {
+            if ($request->file('image')) {
+                $destinationPath = public_path('/storage/upload/images/nominations/' . $nomination->id . '/');
+                $image->move($destinationPath, $input['image']);
+            }
+        }
 
         Flash::success('Nomination updated successfully.');
 
@@ -206,17 +225,13 @@ class NominationController extends AppBaseController
 
     public function vote(Request $request)
     {
-        //create vote
-        //update nomination vote count
-        //redirect
         if (Auth::check()) {
-            //check if the user already voted?
             $checkVote = Voting::where('user_id', Auth::user()->id)
                 ->where('nomination_id', $request->nomination_id)
                 ->where('category_id', $request->category_id)
                 ->first();
             if ($checkVote) {
-                Flash::success('You have already voted before.');
+                Flash::success('You have already voted.');
 
                 return redirect()->back();
             } else {

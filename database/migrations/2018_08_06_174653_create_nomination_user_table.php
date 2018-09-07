@@ -15,11 +15,26 @@ class CreateNominationUserTable extends Migration
     {
         Schema::create('nomination_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('nomination_id');
-            $table->integer('category_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('nomination_id');
+            $table->unsignedInteger('category_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            
+            $table->foreign('nomination_id')
+                ->references('id')
+                ->on('nominations')
+                ->onDelete('cascade');
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
         });
     }
 

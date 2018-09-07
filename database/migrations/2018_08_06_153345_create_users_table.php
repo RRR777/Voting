@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('nickname')->nullable();
             $table->string('facebook_url')->nullable();
-            $table->integer('role_id')->default(4);
+            $table->unsignedInteger('role_id')->default(4);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
+
         });
     }
 
